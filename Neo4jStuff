@@ -1,0 +1,116 @@
+Neo4J Stuff is here
+
+Running neo4j-shell
+Shell doesn't run from a default UI install on mac. Instead, you have to download the tarball and extract it somewhere. CD into the bin directory and run from there. Download from here:
+http://neo4j.com/download/other-releases/
+
+Useful shell commands:
+Options to run the shell
+./neo4j-shell --help
+
+
+Connect for an interactive shell
+./neo4j-shell -path /Users/max/Documents/Neo4j/max.graphdb
+
+Generate a dump of the db
+./neo4j-shell -path /Users/max/Documents/Neo4j/max.graphdb -c dump > dump.txt
+
+Read back in
+./neo4j-shell -file dump.txt 
+
+
+
+load products
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///Products.csv" AS row
+CREATE (:Product {productName: row.Description, productDesc: row.Description, DSSME: row.DS.SME});
+
+create personas
+create (n:Persona {name: "Admit"})
+create (n:Persona {name: "Student"})
+create (n:Persona {name: "Faculty"})
+create (n:Persona {name: "Staff"})
+create (n:Persona {name: "Alumni"})
+create (n:Persona {name: "IT"})
+create (n:Persona {name: "Public"})
+
+
+create relationships to admit personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///AdmitProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "Admit"})
+MERGE (prod)-[:USED_BY]->(per);
+
+display
+match (p:Product) -[:USED_BY]- (pers:Persona) return p, pers
+
+
+create relationships to student personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///StudentProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "Student"})
+MERGE (prod)-[:USED_BY]->(per);
+
+match (p:Product) -[:USED_BY]- (pers:Persona) return p, pers
+
+
+create relationships to faculty personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///FacultyProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "Faculty"})
+MERGE (prod)-[:USED_BY]->(per);
+
+
+create relationships to staff personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///StaffProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "Staff"})
+MERGE (prod)-[:USED_BY]->(per);
+
+create relationships to alumni personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///AlumniProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "Alumni"})
+MERGE (prod)-[:USED_BY]->(per);
+
+create relationships to IT personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///ITProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "IT"})
+MERGE (prod)-[:USED_BY]->(per);
+
+
+create relationships to Public personas
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "file:///PublicProducts.csv" AS row
+MATCH (prod:Product {name: row.Product})
+MATCH (per:Persona {name: "Public"})
+MERGE (prod)-[:USED_BY]->(per);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
